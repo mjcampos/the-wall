@@ -2,6 +2,24 @@ body {
 	padding-top: 70px;
 }
 
-h1 {
+h1, h2, h4 {
 	text-align: center;
+}
+
+.nav {
+	margin-top: 15px;
+}
+
+li {
+	margin-left: 10px;
+}
+
+.main {
+	padding-bottom: 20px;
+}
+
+.modal-footer {
+	padding-top: 10px;
+	border-top-width: 2px;
+	margin-top: 30px;
 }
