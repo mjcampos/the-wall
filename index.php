@@ -1,20 +1,14 @@
+<?php
+	session_start();
+
+	// Insert the connection page
+	require_once('connection.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>The Wall</title>
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="styles.css">
-
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
-		<!-- Latest compiled and minified JavaScript -->
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script src="script.js" type="text/javascript"></script>
-	</head>
+	<!--HTML tags-->
+	<?php require_once('header.php');?>
 
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top">
@@ -32,40 +26,62 @@
 		</nav>
 
 		<div class="container main">
-			<h1>The Wall</h1>
-			<h2>Welcome to The Wall, the hottest social networking site since Facebook's horrifying, yet very sensual, demise in 2019. Boy that had to have been one of the freakest years in human history.</h2>
+			<h2>Welcome to The Wall, the hottest social networking site since Facebook's horrifying, yet very sensual, demise in 2019. Boy that had to have been one of the freakiest years in human history.</h2>
 
 			<div class="row">
+				<!--Registration-->
 				<div class="col-md-6 col-md-offset-3">
 					<h2>Sign Up</h2>
-					<form>
+					<form action="process.php" method="post">
+						<input type="hidden" name="action" value="register">
 						<div class="form-group">
 							<label for="first_name">First Name</label>
-							<input type="text" class="form-control" id="first_name" placeholder="First Name">
+							<input type="text" class="form-control" id="first_name" placeholder="First Name" name="first_name">
 						</div>
 
 						<div class="form-group">
 							<label for="last_name">Last Name</label>
-							<input type="text" class="form-control" id="last_name" placeholder="Last Name">
+							<input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name">
 						</div>
 
 						<div class="form-group">
 							<label for="email">Email</label>
-							<input type="email" class="form-control" id="email" placeholder="Email">
+							<input type="email" class="form-control" id="email" placeholder="Email" name="email">
 						</div>
 
 						<div class="form-group">
 							<label for="password">Password</label>
-							<input type="text" class="form-control" id="password" placeholder="Password">
+							<input type="password" class="form-control" id="password" placeholder="Password" name="password">
 						</div>
 
 						<div class="form-group">
 							<label for="confirmation_password">Confirmation Password</label>
-							<input type="text" class="form-control" id="confirmation_password" placeholder="Confirmation Password">
+							<input type="password" class="form-control" id="confirmation_password" placeholder="Confirmation Password" name="confirmation_password">
 						</div>
 
 						<button type="submit" class="btn btn-primary">Sign Up</button>
 					</form>
+				</div>
+				<div class="col-md-3">
+					<?php
+						if (isset($_SESSION['errors']) && COUNT($_SESSION['errors']) > 0) {
+							foreach ($_SESSION['errors'] as $message) {
+								echo "<div class='alert alert-danger'><p>".$message."</p></div>";
+							}
+							session_destroy();
+						}
+
+						if (isset($_SESSION['message'])) {
+							if ($_SESSION['message'][1]) {
+								echo "<div class='alert alert-success'><p>".$_SESSION['message'][1]."</p></div>";
+							}
+							elseif ($_SESSION['message'][0]) {
+								echo "<div class='alert alert-danger'><p>".$_SESSION['message'][0]."</p></div>";
+							}
+
+							unset($_SESSION['message']);
+						}
+					?>
 				</div>
 			</div>
 		</div>
@@ -80,14 +96,15 @@
 					</div>
 
 					<div class="modal-body">
-						<form>
+						<form action="process.php" method="post">
+							<input type="hidden" name="action" value="login">
 							<div class="form-group">
 								<label for="email">Email</label>
-								<input type="email" class="form-control" id="email" placeholder="Email">
+								<input type="email" class="form-control" id="email" placeholder="Email" name="email">
 							</div>
 							<div class="form-group">
 								<label for="password">Password</label>
-								<input type="password" class="form-control" id="password" placeholder="Password">
+								<input type="password" class="form-control" id="password" placeholder="Password" name="password">
 							</div>
 
 							<div class="modal-footer">
