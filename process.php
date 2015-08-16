@@ -183,6 +183,21 @@
 		else {
 			// Escape strings with special characters
 			$esc_comment = mysqli_real_escape_string($connection, $_POST['comment']);
+
+			// Insert comment into query
+			$query = "INSERT INTO comments(comment, created_at, updated_at, message_id, user_id)
+					  VALUES ('{$esc_comment}', NOW(), NOW(), '{$_POST['message_id']}', '{$_SESSION['user_id']}')";
+
+			if(run_mysql_query($query)) {
+			    $_SESSION['message'][1] = "Comment posted";
+			    unset($_POST);
+				}
+			else {
+			    $_SESSION['message'][0] = "Comment unable to be posted";
+			}
+
+			header('location: main.php');
+			die();
 		}
 	}
 	// Log Off

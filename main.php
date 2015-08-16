@@ -32,10 +32,6 @@
 
 		<!--The main body-->
 		<div class="container main">
-			<?php
-				var_dump($_SESSION);
-			?>
-
 			<h3>Post a message</h3>
 			<form action="process.php" method="post">
 				<input type="hidden" name="action" value="post">
@@ -55,10 +51,10 @@
 						}
 
 						if (isset($_SESSION['message'])) {
-							if ($_SESSION['message'][1]) {
+							if (isset($_SESSION['message'][1])) {
 								echo "<div class='alert alert-success'><p>".$_SESSION['message'][1]."</p></div>";
 							}
-							elseif ($_SESSION['message'][0]) {
+							elseif (isset($_SESSION['message'][0])) {
 								echo "<div class='alert alert-danger'><p>".$_SESSION['message'][0]."</p></div>";
 							}
 
@@ -81,9 +77,26 @@
 						echo "<p>".$key['message']."</p>";
 
 						echo "<div class='comment'>";
+							// Display comments here
+
+							// Run queury for comments
+							$query2 = "SELECT users.id AS 'user id', CONCAT(users.first_name,' ', users.last_name) AS name, messages.id AS 'message id', comments.id AS 'comment id', comments.comment, comments.created_at
+									   FROM comments
+									   LEFT JOIN messages ON messages.id = comments.message_id
+									   Left JOIN users ON users.id = comments.user_id
+									   WHERE messages.id ='{$key['id']}'
+									   ORDER BY comments.created_at ASC";
+							$result2 = fetch($query2);
+
+							foreach ($result2 as $key2) {
+								echo "<h4>".$key2['name']." - ".date('F j Y', strtotime($key2['created_at']))."</h4>";
+								echo "<p>".$key2['comment']."</p>";
+							}
 							echo "<h4>Post a comment</h4>";
 							echo "<form action='process.php' method='post'>";
 								echo "<input type='hidden' name='action' value='comment'>";
+								// Hidden input for the message id
+								echo "<input type='hidden' name='message_id' value='{$key['id']}'>";
 								echo "<textarea id='message' rows='3' name='comment'></textarea>";
 								echo "<button type='submit' class='btn btn-success btn-lg'>Post a comment</button>";
 							echo "</form>";
