@@ -135,7 +135,7 @@
 	elseif (isset($_POST['action']) && $_POST['action'] == 'post') {
 		//--------Begin validation test--------//
 
-		// Test for empty email
+		// Test for empty message
 		if (empty($_POST['message'])) {
 			$_SESSION['errors'][] = 'Message field cannot be empty';
 		}
@@ -163,6 +163,26 @@
 
 			header('location: main.php');
 			die();
+		}
+	}
+	// Comment
+	elseif (isset($_POST['action']) && $_POST['action'] == 'comment') {
+		//--------Begin validation test--------//
+
+		// Test for empty comment
+		if (empty($_POST['comment'])) {
+			$_SESSION['errors'][] = 'Comment field cannot be empty';
+		}
+
+		//--------End of validation testing--------//
+
+		// If there are any errors user gets redirected back to index.php, else user's entries are inserted into the query
+		if (COUNT($_SESSION['errors']) > 0) {
+			header('location: main.php');
+		}
+		else {
+			// Escape strings with special characters
+			$esc_comment = mysqli_real_escape_string($connection, $_POST['comment']);
 		}
 	}
 	// Log Off

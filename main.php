@@ -36,8 +36,15 @@
 				var_dump($_SESSION);
 			?>
 
+			<h3>Post a message</h3>
+			<form action="process.php" method="post">
+				<input type="hidden" name="action" value="post">
+				<textarea id="message" rows="5" name="message"></textarea>
+				<button type="submit" class="btn btn-primary btn-lg">Post a message</button>
+			</form>
+
 			<!--Row for error messages-->
-			<div class="row">
+			<div class="row message_row">
 				<div class="col-md-12">
 					<?php
 						if (isset($_SESSION['errors']) && COUNT($_SESSION['errors']) > 0) {
@@ -60,12 +67,6 @@
 					?>
 				</div>
 			</div>
-			<h3>Post a message</h3>
-			<form action="process.php" method="post">
-				<input type="hidden" name="action" value="post">
-				<textarea id="message" rows="5" name="message"></textarea>
-				<button type="submit" class="btn btn-primary btn-lg">Submit</button>
-			</form>
 
 			<?php
 				$query = "SELECT messages.id, CONCAT(users.first_name,' ', users.last_name) AS name, messages.message, messages.created_at
@@ -76,8 +77,17 @@
 
 				foreach ($result as $key) {
 					echo "<div class='message_box'>";
-					echo "<h3>".$key['name']." ".date('F j Y', strtotime($key['created_at']))."</h3>";
-					echo "<p>".$key['message']."</p>";
+						echo "<h3>".$key['name']." ".date('F j Y', strtotime($key['created_at']))."</h3>";
+						echo "<p>".$key['message']."</p>";
+
+						echo "<div class='comment'>";
+							echo "<h4>Post a comment</h4>";
+							echo "<form action='process.php' method='post'>";
+								echo "<input type='hidden' name='action' value='comment'>";
+								echo "<textarea id='message' rows='3' name='comment'></textarea>";
+								echo "<button type='submit' class='btn btn-success btn-lg'>Post a comment</button>";
+							echo "</form>";
+						echo "</div>";
 					echo "</div>";
 				}
 			?>
