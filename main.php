@@ -73,7 +73,7 @@
 
 				foreach ($result as $key) {
 					echo "<div class='message_box'>";
-						echo "<h3>".$key['name']." ".date('F j Y', strtotime($key['created_at']))."</h3>";
+						echo "<h3>".$key['name']." ".date('F jS Y', strtotime($key['created_at']))."</h3>";
 						echo "<p>".$key['message']."</p>";
 
 						echo "<div class='comment'>";
@@ -89,7 +89,7 @@
 							$result2 = fetch($query2);
 
 							foreach ($result2 as $key2) {
-								echo "<h4>".$key2['name']." - ".date('F j Y', strtotime($key2['created_at']))."</h4>";
+								echo "<h4>".$key2['name']." - ".date('F jS Y', strtotime($key2['created_at']))."</h4>";
 								echo "<p>".$key2['comment']."</p>";
 							}
 							echo "<h4>Post a comment</h4>";
